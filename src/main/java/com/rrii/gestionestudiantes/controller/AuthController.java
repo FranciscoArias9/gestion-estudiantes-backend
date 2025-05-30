@@ -14,14 +14,19 @@ import com.rrii.gestionestudiantes.repository.UsuarioEncargadoRepository;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    @Autowired private UsuarioEncargadoRepository repo;
+    @Autowired
+    private UsuarioEncargadoRepository repo;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
+        System.out.println("🔐 Intento de login con: " + req.getCorreo());
+
         var user = repo.findByCorreo(req.getCorreo());
         if (user.isPresent() && user.get().getContrasena().equals(req.getContrasena())) {
+            System.out.println("✅ Login exitoso para: " + user.get().getCorreo());
             return ResponseEntity.ok(user);
         } else {
+            System.out.println("❌ Login fallido para: " + req.getCorreo());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
