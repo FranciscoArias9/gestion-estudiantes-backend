@@ -15,10 +15,12 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
+            "http://localhost:5173",
             "https://gestion-estudiantes-frontend.vercel.app"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "Access-Control-Allow-Origin"));
         configuration.setAllowCredentials(true);
 
         System.out.println("✅ CorsConfigurationSource initialized");
