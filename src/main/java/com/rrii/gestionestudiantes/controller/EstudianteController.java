@@ -1,5 +1,8 @@
 package com.rrii.gestionestudiantes.controller;
 
+////////////////////
+import org.springframework.web.bind.annotation.CrossOrigin;
+////////////////////
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -144,26 +147,33 @@ public ResponseEntity<Void> eliminar(@PathVariable Long id) {
     }
 }
 
-    @PostMapping("/con-foto")
-    public ResponseEntity<Estudiante> crearConFoto(
-            @RequestPart("estudiante") Estudiante estudiante,
-            @RequestPart(value = "foto", required = false) MultipartFile foto) {
+    @CrossOrigin(
+    origins = {
+        "https://gestion-estudiantes-frontend.vercel.app",
+        "http://localhost:5173"
+    },
+    allowCredentials = "true"
+)
+@PostMapping("/con-foto")
+public ResponseEntity<Estudiante> crearConFoto(
+        @RequestPart("estudiante") Estudiante estudiante,
+        @RequestPart(value = "foto", required = false) MultipartFile foto) {
 
-        if (foto != null && !foto.isEmpty()) {
-            String nombreArchivo = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
-            Path ruta = Paths.get("uploads/" + nombreArchivo);
-            try {
-                Files.createDirectories(ruta.getParent());
-                Files.copy(foto.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
-                estudiante.setFotoUrl(nombreArchivo);
-            } catch (IOException e) {
-                return ResponseEntity.internalServerError().build();
-            }
+    if (foto != null && !foto.isEmpty()) {
+        String nombreArchivo = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
+        Path ruta = Paths.get("uploads/" + nombreArchivo);
+        try {
+            Files.createDirectories(ruta.getParent());
+            Files.copy(foto.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
+            estudiante.setFotoUrl(nombreArchivo);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
         }
-
-        Estudiante guardado = repo.save(estudiante);
-        return ResponseEntity.ok(guardado);
     }
+
+    Estudiante guardado = repo.save(estudiante);
+    return ResponseEntity.ok(guardado);
+}
 
     @GetMapping("/fotos/{nombre}")
 public ResponseEntity<Resource> verFoto(@PathVariable String nombre) {
