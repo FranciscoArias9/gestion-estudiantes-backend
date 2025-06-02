@@ -54,4 +54,14 @@ public class TfgController {
             return ResponseEntity.ok(tfgRepository.save(tfg));
         }).orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    if (!tfgRepository.existsById(id)) {
+        return ResponseEntity.notFound().build();
+    }
+    tfgRepository.deleteById(id);
+    return ResponseEntity.noContent().build();
+}
+
 }
