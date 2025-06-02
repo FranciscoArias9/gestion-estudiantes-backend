@@ -174,6 +174,34 @@ public ResponseEntity<Estudiante> crearConFoto(
     Estudiante guardado = repo.save(estudiante);
     return ResponseEntity.ok(guardado);
 }
+    @CrossOrigin(
+    origins = {
+        "https://gestion-estudiantes-frontend.vercel.app",
+        "http://localhost:5173"
+    },
+    allowCredentials = "true"
+)
+@PostMapping("/{id}/foto")
+public ResponseEntity<?> actualizarFoto(@PathVariable Long id, @RequestPart("foto") MultipartFile foto) {
+    return repo.findById(id).map(estudiante -> {
+        if (foto != null && !foto.isEmpty()) {
+            String nombreArchivo = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
+            Path ruta = Paths.get("uploads/" + nombreArchivo);
+            try {
+                Files.createDirectories(ruta.getParent());
+                Files.copy(foto.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
+                estudiante.setFotoUrl(nombreArchivo);
+                repo.save(estudiante);
+                return ResponseEntity.ok().body(java.util.Map.of("filename", nombreArchivo));
+            } catch (IOException e) {
+                return ResponseEntity.internalServerError().body("Error al guardar la foto.");
+            }
+        } else {
+            return ResponseEntity.badRequest().body("No se recibió ninguna foto.");
+        }
+    }).orElse(ResponseEntity.notFound().build());
+}
+
 
     @GetMapping("/fotos/{nombre}")
 public ResponseEntity<Resource> verFoto(@PathVariable String nombre) {
