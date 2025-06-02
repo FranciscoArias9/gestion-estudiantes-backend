@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+
 @Configuration
 public class SecurityConfig {
 
@@ -18,6 +19,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/auth/**",
                     "/estudiantes/**",
+                    "/estudiantes/fotos/**",
                     "/tfgs/**",
                     "/encargado/**"
                 ).permitAll()
