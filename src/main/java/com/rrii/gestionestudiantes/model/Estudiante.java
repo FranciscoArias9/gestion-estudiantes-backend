@@ -93,6 +93,10 @@ public class Estudiante {
     @Column(name = "fecha_ultimo_cambio")
     private LocalDateTime fechaUltimoCambio;
 
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<Tfg> tfgs;
+
+
     public String getUltimoCampoModificado() {
         return ultimoCampoModificado;
     }
