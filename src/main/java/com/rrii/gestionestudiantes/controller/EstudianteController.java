@@ -155,9 +155,18 @@ public ResponseEntity<Void> eliminar(@PathVariable Long id) {
     allowCredentials = "true"
 )
 @PostMapping("/con-foto")
-public ResponseEntity<Estudiante> crearConFoto(
+public ResponseEntity<?> crearConFoto(
         @RequestPart("estudiante") Estudiante estudiante,
-        @RequestPart(value = "foto", required = false) MultipartFile foto) {
+        @RequestPart(value = "foto", required = false) MultipartFile foto,
+        HttpSession session
+) {
+    Object usuario = session.getAttribute("usuario");
+
+    // Bloquear si no hay sesión o si es usuario auxiliar
+    if (usuario == null || usuario instanceof UsuarioAuxiliar) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("No tiene permisos para registrar estudiantes.");
+    }
 
     if (foto != null && !foto.isEmpty()) {
         String nombreArchivo = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -174,6 +183,7 @@ public ResponseEntity<Estudiante> crearConFoto(
     Estudiante guardado = repo.save(estudiante);
     return ResponseEntity.ok(guardado);
 }
+
     @CrossOrigin(
     origins = {
         "https://gestion-estudiantes-frontend.vercel.app",
