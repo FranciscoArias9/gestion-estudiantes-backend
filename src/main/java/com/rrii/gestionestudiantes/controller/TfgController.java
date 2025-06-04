@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import org.springframework.security.core.Authentication;
-import com.rrii.gestionestudiantes.repository.UsuarioEncargadoRepository;
-import com.rrii.gestionestudiantes.model.UsuarioEncargado;
 
 import com.rrii.gestionestudiantes.model.Tfg;
 import com.rrii.gestionestudiantes.repository.EstudianteRepository;
@@ -29,9 +26,6 @@ public class TfgController {
     private TfgRepository tfgRepository;
 
     @Autowired
-private UsuarioEncargadoRepository usuarioEncargadoRepository;
-
-    @Autowired
     private EstudianteRepository estudianteRepository;
 
     @GetMapping
@@ -40,21 +34,15 @@ private UsuarioEncargadoRepository usuarioEncargadoRepository;
     }
 
     @PostMapping
-public ResponseEntity<?> crearTfg(@RequestBody Tfg tfg, Authentication auth) {
-    UsuarioEncargado actual = usuarioEncargadoRepository.findByCorreo(auth.getName()).orElse(null);
+    public ResponseEntity<Tfg> crearTfg(@RequestBody Tfg tfg) {
+        // Validamos que el estudiante exista
+        if (!estudianteRepository.existsById(tfg.getEstudiante().getId())) {
+            return ResponseEntity.badRequest().build();
+        }
 
-    if (actual == null || !"usuario_jefe".equals(actual.getClasificacion())) {
-        return ResponseEntity.status(403).body("No tiene permisos para registrar TFGs.");
+        Tfg saved = tfgRepository.save(tfg);
+        return ResponseEntity.ok(saved);
     }
-
-    if (!estudianteRepository.existsById(tfg.getEstudiante().getId())) {
-        return ResponseEntity.badRequest().body("El estudiante no existe.");
-    }
-
-    Tfg saved = tfgRepository.save(tfg);
-    return ResponseEntity.ok(saved);
-}
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Tfg> getById(@PathVariable Long id) {
