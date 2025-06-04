@@ -22,6 +22,19 @@ public class AuthController {
     @Autowired
     private UsuarioAuxiliarRepository auxiliarRepo;
 
+    @GetMapping("/actual")
+public ResponseEntity<?> getUsuarioActual(HttpServletRequest request) {
+    Object usuario = request.getSession().getAttribute("usuario");
+    String rol = (String) request.getSession().getAttribute("rol");
+
+    if (usuario != null && rol != null) {
+        return ResponseEntity.ok(Map.of("rol", rol));
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No hay sesión activa");
+    }
+}
+
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req, HttpServletRequest request) {
         System.out.println("🔐 Intento de login con: " + req.getCorreo());
