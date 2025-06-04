@@ -37,8 +37,7 @@ public ResponseEntity<?> crearUsuarioEncargado(@RequestBody UsuarioEncargado nue
 }
 
 
-    return ResponseEntity.ok(usuarioEncargadoRepository.save(nuevoUsuario));
-}
+ 
 
 
     @PutMapping("/{id}")
