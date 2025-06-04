@@ -1,8 +1,5 @@
 package com.rrii.gestionestudiantes.controller;
-
-////////////////////
 import org.springframework.web.bind.annotation.CrossOrigin;
-////////////////////
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -12,7 +9,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.rrii.gestionestudiantes.model.Estudiante;
 import com.rrii.gestionestudiantes.repository.EstudianteRepository;
 
@@ -129,7 +124,7 @@ public ResponseEntity<Estudiante> update(@PathVariable Long id, @RequestBody Est
             e.setUltimoCampoModificado("sin cambios detectados");
         }
 
-        // Registrar hora del último cambio
+       
         e.setFechaUltimoCambio(LocalDateTime.now());
 
         return ResponseEntity.ok(repo.save(e));
