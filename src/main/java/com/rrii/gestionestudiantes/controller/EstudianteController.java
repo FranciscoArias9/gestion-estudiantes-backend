@@ -27,15 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.core.Authentication;
-import com.rrii.gestionestudiantes.repository.UsuarioEncargadoRepository;
-import com.rrii.gestionestudiantes.model.UsuarioEncargado;
-
 
 import com.rrii.gestionestudiantes.model.Estudiante;
 import com.rrii.gestionestudiantes.repository.EstudianteRepository;
-
-
 
 @RestController
 @RequestMapping("/estudiantes")
@@ -43,26 +37,15 @@ public class EstudianteController {
     @Autowired
     private EstudianteRepository repo;
 
-    @Autowired
-private UsuarioEncargadoRepository usuarioEncargadoRepository;
-
-
     @GetMapping
     public List<Estudiante> getAll() {
         return repo.findAll();
     }
 
     @PostMapping
-public ResponseEntity<?> crear(@RequestBody Estudiante e, Authentication auth) {
-    UsuarioEncargado actual = usuarioEncargadoRepository.findByCorreo(auth.getName()).orElse(null);
-
-    if (actual == null || !"usuario_jefe".equals(actual.getClasificacion())) {
-        return ResponseEntity.status(403).body("No tiene permisos para registrar estudiantes.");
+    public Estudiante crear(@RequestBody Estudiante e) {
+        return repo.save(e);
     }
-
-    return ResponseEntity.ok(repo.save(e));
-}
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Estudiante> getById(@PathVariable Long id) {
@@ -155,13 +138,7 @@ public ResponseEntity<Estudiante> update(@PathVariable Long id, @RequestBody Est
 
 
     @DeleteMapping("/{id}")
-public ResponseEntity<?> eliminar(@PathVariable Long id, Authentication auth) {
-    UsuarioEncargado actual = usuarioEncargadoRepository.findByCorreo(auth.getName()).orElse(null);
-
-    if (actual == null || !"usuario_jefe".equals(actual.getClasificacion())) {
-        return ResponseEntity.status(403).body("No tiene permisos para eliminar estudiantes.");
-    }
-
+public ResponseEntity<Void> eliminar(@PathVariable Long id) {
     if (repo.existsById(id)) {
         repo.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -170,7 +147,6 @@ public ResponseEntity<?> eliminar(@PathVariable Long id, Authentication auth) {
     }
 }
 
-
     @CrossOrigin(
     origins = {
         "https://gestion-estudiantes-frontend.vercel.app",
@@ -178,17 +154,10 @@ public ResponseEntity<?> eliminar(@PathVariable Long id, Authentication auth) {
     },
     allowCredentials = "true"
 )
-    
 @PostMapping("/con-foto")
-public ResponseEntity<?> crearConFoto(
+public ResponseEntity<Estudiante> crearConFoto(
         @RequestPart("estudiante") Estudiante estudiante,
-        @RequestPart(value = "foto", required = false) MultipartFile foto,
-        Authentication auth) {
-
-    UsuarioEncargado actual = usuarioEncargadoRepository.findByCorreo(auth.getName()).orElse(null);
-    if (actual == null || !"usuario_jefe".equals(actual.getClasificacion())) {
-        return ResponseEntity.status(403).body("No tiene permisos para registrar estudiantes.");
-    }
+        @RequestPart(value = "foto", required = false) MultipartFile foto) {
 
     if (foto != null && !foto.isEmpty()) {
         String nombreArchivo = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -205,7 +174,6 @@ public ResponseEntity<?> crearConFoto(
     Estudiante guardado = repo.save(estudiante);
     return ResponseEntity.ok(guardado);
 }
-
     @CrossOrigin(
     origins = {
         "https://gestion-estudiantes-frontend.vercel.app",
