@@ -40,9 +40,10 @@ public ResponseEntity<?> crearUsuarioEncargado(@RequestBody UsuarioEncargado nue
 @GetMapping("/actual")
 public ResponseEntity<?> getActual(Authentication auth) {
     return repo.findByCorreo(auth.getName())
-               .map(ResponseEntity::ok)
+               .<ResponseEntity<?>>map(ResponseEntity::ok)
                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado"));
 }
+
 
  
 
