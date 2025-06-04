@@ -23,6 +23,18 @@ public class UsuarioEncargado {
 
     private String puesto;
 
+    @Column(name = "clasificacion")
+private String clasificacion;
+
+    public String getClasificacion() {
+    return clasificacion;
+}
+
+public void setClasificacion(String clasificacion) {
+    this.clasificacion = clasificacion;
+}
+
+
     // Getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
