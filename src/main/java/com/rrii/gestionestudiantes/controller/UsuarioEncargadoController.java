@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rrii.gestionestudiantes.model.UsuarioEncargado;
 import com.rrii.gestionestudiantes.repository.UsuarioEncargadoRepository;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/encargado")
