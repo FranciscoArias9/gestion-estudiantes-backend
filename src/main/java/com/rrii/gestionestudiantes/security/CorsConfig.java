@@ -17,8 +17,7 @@ public class CorsConfig {
 
         // ⚠️ Usa allowedOriginPatterns para que no falle si hay subdominios o rutas inesperadas
         configuration.setAllowedOriginPatterns(Arrays.asList(
-            "http://localhost:5173",
-            "https://gestion-estudiantes-frontend.vercel.app"
+            
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
