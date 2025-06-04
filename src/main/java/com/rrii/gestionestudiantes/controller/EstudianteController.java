@@ -169,12 +169,7 @@ public ResponseEntity<Estudiante> crearConFoto(
     Estudiante guardado = repo.save(estudiante);
     return ResponseEntity.ok(guardado);
 }
-    @CrossOrigin(
-    origins = {
-        "https://gestion-estudiantes-frontend.vercel.app",
-        "http://localhost:5173"
-    },
-    allowCredentials = "true"
+    
 )
 @PostMapping("/{id}/foto")
 public ResponseEntity<?> actualizarFoto(@PathVariable Long id, @RequestPart("foto") MultipartFile foto) {
