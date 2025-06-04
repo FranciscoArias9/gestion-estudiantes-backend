@@ -12,6 +12,10 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import jakarta.servlet.http.HttpSession;
+import com.rrii.gestionestudiantes.model.UsuarioAuxiliar;
+import org.springframework.http.HttpStatus;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
