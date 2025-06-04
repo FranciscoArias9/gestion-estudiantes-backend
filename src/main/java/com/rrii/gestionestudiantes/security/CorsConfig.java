@@ -15,12 +15,17 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // 🔐 Solo permití tu dominio de frontend
-        configuration.setAllowedOrigins(Arrays.asList("https://gestion-estudiantes-frontend.vercel.app"));
+        // ⚠️ Usa allowedOriginPatterns para que no falle si hay subdominios o rutas inesperadas
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+            "http://localhost:5173",
+            "https://gestion-estudiantes-frontend.vercel.app"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true); // 👈 habilita envío de cookies
+        configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Access-Control-Allow-Origin"));
+
+        System.out.println("✅ CORS config aplicada correctamente");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -28,4 +33,3 @@ public class CorsConfig {
         return source;
     }
 }
-
