@@ -155,7 +155,13 @@ public ResponseEntity<Estudiante> update(@PathVariable Long id, @RequestBody Est
 
 
     @DeleteMapping("/{id}")
-public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+public ResponseEntity<?> eliminar(@PathVariable Long id, Authentication auth) {
+    UsuarioEncargado actual = usuarioEncargadoRepository.findByCorreo(auth.getName()).orElse(null);
+
+    if (actual == null || !"usuario_jefe".equals(actual.getClasificacion())) {
+        return ResponseEntity.status(403).body("No tiene permisos para eliminar estudiantes.");
+    }
+
     if (repo.existsById(id)) {
         repo.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -163,6 +169,7 @@ public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         return ResponseEntity.notFound().build();
     }
 }
+
 
     @CrossOrigin(
     origins = {
