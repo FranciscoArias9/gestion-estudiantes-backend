@@ -12,10 +12,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import jakarta.servlet.http.HttpSession;
-import com.rrii.gestionestudiantes.model.UsuarioAuxiliar;
-import org.springframework.http.HttpStatus;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -159,18 +155,9 @@ public ResponseEntity<Void> eliminar(@PathVariable Long id) {
     allowCredentials = "true"
 )
 @PostMapping("/con-foto")
-public ResponseEntity<?> crearConFoto(
+public ResponseEntity<Estudiante> crearConFoto(
         @RequestPart("estudiante") Estudiante estudiante,
-        @RequestPart(value = "foto", required = false) MultipartFile foto,
-        HttpSession session
-) {
-    Object usuario = session.getAttribute("usuario");
-
-    // Bloquear si no hay sesión o si es usuario auxiliar
-    if (usuario == null || usuario instanceof UsuarioAuxiliar) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body("No tiene permisos para registrar estudiantes.");
-    }
+        @RequestPart(value = "foto", required = false) MultipartFile foto) {
 
     if (foto != null && !foto.isEmpty()) {
         String nombreArchivo = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -187,7 +174,6 @@ public ResponseEntity<?> crearConFoto(
     Estudiante guardado = repo.save(estudiante);
     return ResponseEntity.ok(guardado);
 }
-
     @CrossOrigin(
     origins = {
         "https://gestion-estudiantes-frontend.vercel.app",
