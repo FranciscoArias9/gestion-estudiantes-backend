@@ -30,13 +30,5 @@ public class UsuarioEncargadoController {
             return ResponseEntity.ok(repo.save(u));
         }).orElse(ResponseEntity.notFound().build());
     }
-    @GetMapping("/actual")
-public ResponseEntity<UsuarioEncargado> getUsuarioActual(HttpSession session) {
-    UsuarioEncargado user = (UsuarioEncargado) session.getAttribute("usuario");
-    if (user != null) {
-        return ResponseEntity.ok(user);
-    } else {
-        return ResponseEntity.status(401).build();
-    }
-}
+  
 }
