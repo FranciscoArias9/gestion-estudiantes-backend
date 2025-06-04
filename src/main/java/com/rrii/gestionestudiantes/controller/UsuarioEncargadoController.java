@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.servlet.http.HttpSession;
 
 import com.rrii.gestionestudiantes.model.UsuarioEncargado;
 import com.rrii.gestionestudiantes.repository.UsuarioEncargadoRepository;
@@ -30,5 +29,4 @@ public class UsuarioEncargadoController {
             return ResponseEntity.ok(repo.save(u));
         }).orElse(ResponseEntity.notFound().build());
     }
-  
 }
