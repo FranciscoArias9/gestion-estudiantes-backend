@@ -30,4 +30,13 @@ public class UsuarioEncargadoController {
             return ResponseEntity.ok(repo.save(u));
         }).orElse(ResponseEntity.notFound().build());
     }
+
+    import org.springframework.web.bind.annotation.PostMapping;
+
+    @PostMapping
+    public ResponseEntity<UsuarioEncargado> create(@RequestBody UsuarioEncargado nuevoEncargado) {
+         UsuarioEncargado guardado = repo.save(nuevoEncargado);
+         return ResponseEntity.ok(guardado);
+    }
+
 }
