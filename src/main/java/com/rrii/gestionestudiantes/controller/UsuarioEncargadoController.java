@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.rrii.gestionestudiantes.model.UsuarioEncargado;
 import com.rrii.gestionestudiantes.repository.UsuarioEncargadoRepository;
@@ -31,7 +32,7 @@ public class UsuarioEncargadoController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    import org.springframework.web.bind.annotation.PostMapping;
+   
 
     @PostMapping
     public ResponseEntity<UsuarioEncargado> create(@RequestBody UsuarioEncargado nuevoEncargado) {
