@@ -142,13 +142,7 @@ public ResponseEntity<Void> eliminar(@PathVariable Long id) {
     }
 }
 
-    @CrossOrigin(
-    origins = {
-        "https://gestion-estudiantes-frontend.vercel.app",
-        "http://localhost:5173"
-    },
-    allowCredentials = "true"
-)
+  
 @PostMapping("/con-foto")
 public ResponseEntity<Estudiante> crearConFoto(
         @RequestPart("estudiante") Estudiante estudiante,
@@ -170,7 +164,7 @@ public ResponseEntity<Estudiante> crearConFoto(
     return ResponseEntity.ok(guardado);
 }
     
-)
+
 @PostMapping("/{id}/foto")
 public ResponseEntity<?> actualizarFoto(@PathVariable Long id, @RequestPart("foto") MultipartFile foto) {
     return repo.findById(id).map(estudiante -> {
