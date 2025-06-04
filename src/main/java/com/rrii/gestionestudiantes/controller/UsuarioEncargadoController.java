@@ -27,7 +27,8 @@ public class UsuarioEncargadoController {
     }
     @PostMapping("/crear-usuario-encargado")
 public ResponseEntity<?> crearUsuarioEncargado(@RequestBody UsuarioEncargado nuevoUsuario, Authentication auth) {
-    UsuarioEncargado actual = repo.findByCorreo(auth.getName());
+    //UsuarioEncargado actual = repo.findByCorreo(auth.getName());
+     UsuarioEncargado actual = repo.findByCorreo(auth.getName()).orElse(null);
 
     if (actual == null || !"usuario_jefe".equals(actual.getClasificacion())) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tiene permisos para crear usuarios.");
