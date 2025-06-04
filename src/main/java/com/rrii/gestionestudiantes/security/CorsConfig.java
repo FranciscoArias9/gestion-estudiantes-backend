@@ -15,16 +15,14 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // ⚠️ Usa allowedOriginPatterns para que no falle si hay subdominios o rutas inesperadas
-        configuration.setAllowedOriginPatterns(Arrays.asList(
-            
-        ));
+        // Permitir cualquier origen (sin credenciales)
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false); // ⚠️ Importante: debe ser false si usás "*"
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Access-Control-Allow-Origin"));
 
-        System.out.println("✅ CORS config aplicada correctamente");
+        System.out.println("✅ CORS config abierta para todos los orígenes");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
