@@ -1,8 +1,8 @@
 package com.rrii.gestionestudiantes;
 
-// 🚀 Importa la clase que permite iniciar la aplicación Spring Boot
+// Importa la clase que permite iniciar la aplicación Spring Boot
 import org.springframework.boot.SpringApplication;
-// 📦 Importa la anotación que marca esta clase como punto de entrada principal
+// Importa la anotación que marca esta clase como punto de entrada principal
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
