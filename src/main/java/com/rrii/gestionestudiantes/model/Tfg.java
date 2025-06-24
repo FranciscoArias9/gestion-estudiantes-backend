@@ -3,28 +3,44 @@ package com.rrii.gestionestudiantes.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
+@Entity // Marca esta clase como una entidad de base de datos que será mapeada a una tabla
 public class Tfg {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Indica que este campo es la clave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID (auto-incremental)
     private Long id;
 
-    // Relación con Estudiante
+    // Relación muchos-a-uno: varios TFGs pueden estar ligados a un mismo estudiante
     @ManyToOne
-    @JoinColumn(name = "estudiante_id", nullable = false)
+    @JoinColumn(name = "estudiante_id", nullable = false) // Define la columna que actúa como clave foránea
     private Estudiante estudiante;
 
+    // Título o tema del TFG
     private String tema;
-    private String modalidadMaestria; // académica / profesional
-    private String modalidadTfg;      // tesis, proyecto, seminario, práctica
+
+    // Tipo de maestría del estudiante (ej. académica o profesional)
+    private String modalidadMaestria;
+
+    // Modalidad específica del TFG (tesis, proyecto, seminario, práctica, etc.)
+    private String modalidadTfg;
+
+    // Fecha en que el TFG fue aprobado
     private LocalDate fechaAprobacion;
+
+    // Texto libre con los nombres del equipo asesor (puede ser uno o más asesores)
     private String equipoAsesor;
+
+    // Fecha límite o vencimiento del TFG según reglamento institucional
     private LocalDate fechaVencimiento;
-    private String status;            // No solicitado, vigente, vigente con prórroga, vencido
+
+    // Estado del TFG: 
+    // puede ser "No solicitado", "Vigente", "Vigente con prórroga", "Vencido", etc.
+    private String status;
+
+    // Campo para registrar notas o comentarios sobre el seguimiento del proceso del TFG
     private String notasSeguimiento;
 
-    // Getters & Setters
+    // ================== Getters y Setters ==================
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
