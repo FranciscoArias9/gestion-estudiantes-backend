@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Clase principal de la aplicación.
  * Esta clase arranca el servidor y carga el contexto de Spring Boot.
  */
-@SpringBootApplication // 🔧 Marca esta clase como una aplicación Spring Boot (incluye @Configuration, @EnableAutoConfiguration, @ComponentScan)
+@SpringBootApplication // Marca esta clase como una aplicación Spring Boot (incluye @Configuration, @EnableAutoConfiguration, @ComponentScan)
 public class GestionestudiantesApplication {
 
     /**
