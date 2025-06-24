@@ -14,14 +14,14 @@ import java.util.List;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 
-
-@Entity
+@Entity // Marca la clase como una entidad de base de datos
 public class Estudiante {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Define la llave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autogenera el ID incremental
     private Long id;
 
+    // Anotaciones @JsonProperty definen cómo se mapean los nombres de los campos en JSON
     @JsonProperty("programa_maestria")
     private String programaMaestria;
 
@@ -48,7 +48,6 @@ public class Estudiante {
 
     @JsonProperty("universidad_origen")
     private String universidadOrigen;
-
 
     @JsonProperty("grado_academico")
     private String gradoAcademico;
@@ -93,34 +92,18 @@ public class Estudiante {
     private String notasAdicionales;
 
     @Column(name = "ultimo_campo_modificado")
-    private String ultimoCampoModificado;
+    private String ultimoCampoModificado; // Campo que indica el último atributo modificado
 
     @Column(name = "fecha_ultimo_cambio")
-    private LocalDateTime fechaUltimoCambio;
+    private LocalDateTime fechaUltimoCambio; // Fecha y hora de la última modificación
 
+    // Relación uno a muchos con TFGs (trabajos finales de graduación)
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
-private List<Tfg> tfgs;
+    private List<Tfg> tfgs;
 
+    private String fotoUrl; // Nombre del archivo de la foto del estudiante
 
-    public String getUltimoCampoModificado() {
-        return ultimoCampoModificado;
-    }
-
-    public void setUltimoCampoModificado(String ultimoCampoModificado) {
-        this.ultimoCampoModificado = ultimoCampoModificado;
-    }
-
-    public LocalDateTime getFechaUltimoCambio() {
-        return fechaUltimoCambio;
-    }
-
-    public void setFechaUltimoCambio(LocalDateTime fechaUltimoCambio) {
-        this.fechaUltimoCambio = fechaUltimoCambio;
-    }
-
-    private String fotoUrl;
-
-    // Getters y Setters
+    // Getters y Setters (métodos de acceso y modificación)
 
     public Long getId() {
         return id;
@@ -354,6 +337,22 @@ private List<Tfg> tfgs;
         this.notasAdicionales = notasAdicionales;
     }
 
+    public String getUltimoCampoModificado() {
+        return ultimoCampoModificado;
+    }
+
+    public void setUltimoCampoModificado(String ultimoCampoModificado) {
+        this.ultimoCampoModificado = ultimoCampoModificado;
+    }
+
+    public LocalDateTime getFechaUltimoCambio() {
+        return fechaUltimoCambio;
+    }
+
+    public void setFechaUltimoCambio(LocalDateTime fechaUltimoCambio) {
+        this.fechaUltimoCambio = fechaUltimoCambio;
+    }
+
     public String getFotoUrl() {
         return fotoUrl;
     }
@@ -372,5 +371,4 @@ private List<Tfg> tfgs;
     public void setTipoMaestria(String tipoMaestria) {
         this.tipoMaestria = tipoMaestria;
     }
-
 }
