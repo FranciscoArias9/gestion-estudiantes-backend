@@ -42,11 +42,11 @@ public class EstudianteController {
     /**
      * Obtiene un estudiante por su ID.
      */
+   
+
     @GetMapping("/{id}")
     public ResponseEntity<Estudiante> getById(@PathVariable Long id) {
-        return estudianteRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return estudianteRepositor.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**
