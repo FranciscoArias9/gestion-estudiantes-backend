@@ -3,6 +3,10 @@ package com.rrii.gestionestudiantes.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * Entidad que representa un Trabajo Final de Graduación (TFG)
+ * asociado a un estudiante.
+ */
 @Entity
 public class Tfg {
 
@@ -10,49 +14,117 @@ public class Tfg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relación con Estudiante
+    /**
+     * Relación muchos-a-uno con la entidad Estudiante.
+     * Cada TFG está asociado a un único estudiante.
+     */
     @ManyToOne
     @JoinColumn(name = "estudiante_id", nullable = false)
     private Estudiante estudiante;
 
+    // Tema o título del TFG
     private String tema;
-    private String modalidadMaestria; // académica / profesional
-    private String modalidadTfg;      // tesis, proyecto, seminario, práctica
+
+    // Modalidad de maestría: académica o profesional
+    private String modalidadMaestria;
+
+    // Tipo de TFG: tesis, proyecto, seminario o práctica
+    private String modalidadTfg;
+
+    // Fecha en la que fue aprobado el tema
     private LocalDate fechaAprobacion;
+
+    // Nombres del equipo asesor asignado al TFG
     private String equipoAsesor;
+
+    // Fecha límite para concluir el TFG
     private LocalDate fechaVencimiento;
-    private String status;            // No solicitado, vigente, vigente con prórroga, vencido
+
+    // Estado del TFG: No solicitado, vigente, con prórroga, vencido, etc.
+    private String status;
+
+    // Notas internas o comentarios de seguimiento
     private String notasSeguimiento;
 
-    // Getters & Setters
+    // ====== Getters y Setters ======
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Estudiante getEstudiante() { return estudiante; }
-    public void setEstudiante(Estudiante estudiante) { this.estudiante = estudiante; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getTema() { return tema; }
-    public void setTema(String tema) { this.tema = tema; }
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
 
-    public String getModalidadMaestria() { return modalidadMaestria; }
-    public void setModalidadMaestria(String modalidadMaestria) { this.modalidadMaestria = modalidadMaestria; }
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
 
-    public String getModalidadTfg() { return modalidadTfg; }
-    public void setModalidadTfg(String modalidadTfg) { this.modalidadTfg = modalidadTfg; }
+    public String getTema() {
+        return tema;
+    }
 
-    public LocalDate getFechaAprobacion() { return fechaAprobacion; }
-    public void setFechaAprobacion(LocalDate fechaAprobacion) { this.fechaAprobacion = fechaAprobacion; }
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
 
-    public String getEquipoAsesor() { return equipoAsesor; }
-    public void setEquipoAsesor(String equipoAsesor) { this.equipoAsesor = equipoAsesor; }
+    public String getModalidadMaestria() {
+        return modalidadMaestria;
+    }
 
-    public LocalDate getFechaVencimiento() { return fechaVencimiento; }
-    public void setFechaVencimiento(LocalDate fechaVencimiento) { this.fechaVencimiento = fechaVencimiento; }
+    public void setModalidadMaestria(String modalidadMaestria) {
+        this.modalidadMaestria = modalidadMaestria;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getModalidadTfg() {
+        return modalidadTfg;
+    }
 
-    public String getNotasSeguimiento() { return notasSeguimiento; }
-    public void setNotasSeguimiento(String notasSeguimiento) { this.notasSeguimiento = notasSeguimiento; }
+    public void setModalidadTfg(String modalidadTfg) {
+        this.modalidadTfg = modalidadTfg;
+    }
+
+    public LocalDate getFechaAprobacion() {
+        return fechaAprobacion;
+    }
+
+    public void setFechaAprobacion(LocalDate fechaAprobacion) {
+        this.fechaAprobacion = fechaAprobacion;
+    }
+
+    public String getEquipoAsesor() {
+        return equipoAsesor;
+    }
+
+    public void setEquipoAsesor(String equipoAsesor) {
+        this.equipoAsesor = equipoAsesor;
+    }
+
+    public LocalDate getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(LocalDate fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNotasSeguimiento() {
+        return notasSeguimiento;
+    }
+
+    public void setNotasSeguimiento(String notasSeguimiento) {
+        this.notasSeguimiento = notasSeguimiento;
+    }
 }
