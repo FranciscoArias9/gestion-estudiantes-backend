@@ -12,32 +12,40 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.rrii.gestionestudiantes.model.UsuarioEncargado;
 import com.rrii.gestionestudiantes.repository.UsuarioEncargadoRepository;
-import org.springframework.web.bind.annotation.PostMapping;
 
-@RestController
-@RequestMapping("/encargado")
+@RestController // Marca esta clase como un controlador REST
+@RequestMapping("/encargado") // Define la ruta base para todas las peticiones relacionadas a encargados
 public class UsuarioEncargadoController {
-    @Autowired private UsuarioEncargadoRepository repo;
 
+    // Inyección automática del repositorio de usuarios encargados
+    @Autowired
+    private UsuarioEncargadoRepository repo;
+
+    // Método para obtener un usuario encargado por su ID
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioEncargado> get(@PathVariable Long id) {
+        // Si se encuentra el usuario, lo retorna con status 200, si no, retorna 404
         return repo.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    // Método para actualizar un usuario encargado existente
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioEncargado> update(@PathVariable Long id, @RequestBody UsuarioEncargado u) {
         return repo.findById(id).map(enc -> {
+            // Se asegura de mantener el ID existente
             u.setId(enc.getId());
+            // Guarda y retorna el usuario actualizado
             return ResponseEntity.ok(repo.save(u));
-        }).orElse(ResponseEntity.notFound().build());
+        }).orElse(ResponseEntity.notFound().build()); // Si no se encuentra, retorna 404
     }
 
-   
-
+    // Método para crear un nuevo usuario encargado
     @PostMapping
     public ResponseEntity<UsuarioEncargado> create(@RequestBody UsuarioEncargado nuevoEncargado) {
-         UsuarioEncargado guardado = repo.save(nuevoEncargado);
-         return ResponseEntity.ok(guardado);
+        // Guarda el nuevo encargado en la base de datos
+        UsuarioEncargado guardado = repo.save(nuevoEncargado);
+        // Retorna el encargado guardado con status 200
+        return ResponseEntity.ok(guardado);
     }
 
 }
