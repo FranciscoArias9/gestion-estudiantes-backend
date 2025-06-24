@@ -1,26 +1,23 @@
 package com.rrii.gestionestudiantes.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import java.util.List;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-
-
+/**
+ * Entidad que representa a un estudiante dentro del sistema.
+ * Contiene datos personales, académicos y de seguimiento de estado.
+ */
 @Entity
 public class Estudiante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // ====== Datos académicos ======
 
     @JsonProperty("programa_maestria")
     private String programaMaestria;
@@ -31,7 +28,22 @@ public class Estudiante {
     @JsonProperty("numero_promocion")
     private String numeroPromocion;
 
+    @JsonProperty("tipo_maestria")
+    private String tipoMaestria;
+
     private String modalidad;
+
+    @JsonProperty("grado_academico")
+    private String gradoAcademico;
+
+    @JsonProperty("carreras_universitarias")
+    private String carrerasUniversitarias;
+
+    @JsonProperty("tipo_empadronamiento")
+    private String tipoEmpadronamiento;
+
+    // ====== Datos personales ======
+
     private String nombre;
     private String apellidos;
     private String nacionalidad;
@@ -49,12 +61,7 @@ public class Estudiante {
     @JsonProperty("universidad_origen")
     private String universidadOrigen;
 
-
-    @JsonProperty("grado_academico")
-    private String gradoAcademico;
-
-    @JsonProperty("carreras_universitarias")
-    private String carrerasUniversitarias;
+    // ====== Datos laborales ======
 
     @JsonProperty("lugar_trabajo")
     private String lugarTrabajo;
@@ -62,8 +69,7 @@ public class Estudiante {
     @JsonProperty("funcion_trabajo")
     private String funcionTrabajo;
 
-    @JsonProperty("tipo_empadronamiento")
-    private String tipoEmpadronamiento;
+    // ====== Exoneración y motivación ======
 
     @JsonProperty("solicitud_exoneracion")
     private String solicitudExoneracion;
@@ -79,6 +85,8 @@ public class Estudiante {
 
     private int adaptabilidad;
     private int comunicacion;
+
+    // ====== Seguimiento académico ======
 
     @JsonProperty("estado_estudiante")
     private String estadoEstudiante;
@@ -98,29 +106,14 @@ public class Estudiante {
     @Column(name = "fecha_ultimo_cambio")
     private LocalDateTime fechaUltimoCambio;
 
-    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
-private List<Tfg> tfgs;
-
-
-    public String getUltimoCampoModificado() {
-        return ultimoCampoModificado;
-    }
-
-    public void setUltimoCampoModificado(String ultimoCampoModificado) {
-        this.ultimoCampoModificado = ultimoCampoModificado;
-    }
-
-    public LocalDateTime getFechaUltimoCambio() {
-        return fechaUltimoCambio;
-    }
-
-    public void setFechaUltimoCambio(LocalDateTime fechaUltimoCambio) {
-        this.fechaUltimoCambio = fechaUltimoCambio;
-    }
-
+    // URL del archivo de imagen (foto de perfil del estudiante)
     private String fotoUrl;
 
-    // Getters y Setters
+    // Relación uno-a-muchos: un estudiante puede tener múltiples TFGs
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tfg> tfgs;
+
+    // ====== Getters y Setters ======
 
     public Long getId() {
         return id;
@@ -154,12 +147,44 @@ private List<Tfg> tfgs;
         this.numeroPromocion = numeroPromocion;
     }
 
+    public String getTipoMaestria() {
+        return tipoMaestria;
+    }
+
+    public void setTipoMaestria(String tipoMaestria) {
+        this.tipoMaestria = tipoMaestria;
+    }
+
     public String getModalidad() {
         return modalidad;
     }
 
     public void setModalidad(String modalidad) {
         this.modalidad = modalidad;
+    }
+
+    public String getGradoAcademico() {
+        return gradoAcademico;
+    }
+
+    public void setGradoAcademico(String gradoAcademico) {
+        this.gradoAcademico = gradoAcademico;
+    }
+
+    public String getCarrerasUniversitarias() {
+        return carrerasUniversitarias;
+    }
+
+    public void setCarrerasUniversitarias(String carrerasUniversitarias) {
+        this.carrerasUniversitarias = carrerasUniversitarias;
+    }
+
+    public String getTipoEmpadronamiento() {
+        return tipoEmpadronamiento;
+    }
+
+    public void setTipoEmpadronamiento(String tipoEmpadronamiento) {
+        this.tipoEmpadronamiento = tipoEmpadronamiento;
     }
 
     public String getNombre() {
@@ -234,22 +259,6 @@ private List<Tfg> tfgs;
         this.universidadOrigen = universidadOrigen;
     }
 
-    public String getGradoAcademico() {
-        return gradoAcademico;
-    }
-
-    public void setGradoAcademico(String gradoAcademico) {
-        this.gradoAcademico = gradoAcademico;
-    }
-
-    public String getCarrerasUniversitarias() {
-        return carrerasUniversitarias;
-    }
-
-    public void setCarrerasUniversitarias(String carrerasUniversitarias) {
-        this.carrerasUniversitarias = carrerasUniversitarias;
-    }
-
     public String getLugarTrabajo() {
         return lugarTrabajo;
     }
@@ -264,14 +273,6 @@ private List<Tfg> tfgs;
 
     public void setFuncionTrabajo(String funcionTrabajo) {
         this.funcionTrabajo = funcionTrabajo;
-    }
-
-    public String getTipoEmpadronamiento() {
-        return tipoEmpadronamiento;
-    }
-
-    public void setTipoEmpadronamiento(String tipoEmpadronamiento) {
-        this.tipoEmpadronamiento = tipoEmpadronamiento;
     }
 
     public String isSolicitudExoneracion() {
@@ -362,15 +363,27 @@ private List<Tfg> tfgs;
         this.fotoUrl = fotoUrl;
     }
 
-    @JsonProperty("tipo_maestria")
-    private String tipoMaestria;
-
-    public String getTipoMaestria() {
-        return tipoMaestria;
+    public String getUltimoCampoModificado() {
+        return ultimoCampoModificado;
     }
 
-    public void setTipoMaestria(String tipoMaestria) {
-        this.tipoMaestria = tipoMaestria;
+    public void setUltimoCampoModificado(String ultimoCampoModificado) {
+        this.ultimoCampoModificado = ultimoCampoModificado;
     }
 
+    public LocalDateTime getFechaUltimoCambio() {
+        return fechaUltimoCambio;
+    }
+
+    public void setFechaUltimoCambio(LocalDateTime fechaUltimoCambio) {
+        this.fechaUltimoCambio = fechaUltimoCambio;
+    }
+
+    public List<Tfg> getTfgs() {
+        return tfgs;
+    }
+
+    public void setTfgs(List<Tfg> tfgs) {
+        this.tfgs = tfgs;
+    }
 }
